@@ -45,6 +45,14 @@
 (debug-html *scrape*)
 (debug-text *scrape*)
 
+;; PLAN
+;; (first (create-item *scrape*)) shows what we have
+;; we should now be able to pull down these two *-urls and perform a seperate scrape on them
+;; these scrapes should be in some sort of job queue, in case of throttling or w/e
+;; once we get all the data we need (raw coords / language) we want to put these in the appropriate place
+;; how do we do this robustly?
+;; save these pages down locally
+;; http://lethain.com/a-couple-of-clojure-agent-examples/ (parallel http fetches)
 
 ;; TODO: how to save / memoize a url page to avoid needless scraping?
 ;; TODO: create a list of all the jobs to request (coords / languages),
