@@ -8,6 +8,8 @@
 
 ;; left off at: get urls too, pattern match for country-city
 
+;; great! now match every other. take or drop or something.
+
 ;; useful
 (defmacro redir [filename & body]
   `(binding [*out* (clojure.java.io/writer ~filename)] ~@body))
@@ -26,13 +28,23 @@
 
 (defn link? [node] (= (:tag node) :a))
 
+(defn create-linkmap [content]
+  [{:name (:title (:attrs content))
+     :url (:href (:attrs content))}])
+
 (defn content->cities
   "turns scrape content into a seq with country-city repeated"
   [content]
   (cond
-   (link? content) [(:title (:attrs content))]
+   (link? content) (create-linkmap content)
    (map? content) (content->cities (:content content))
    (coll? content) (mapcat content->cities content)))
+
+;; this gives us the country, 1 gives us the city
+;; we want new keys and merge them somehow
+(let [prep (content->cities *scrape*)]
+  (nth prep 0))
+
 
 ;; dev
 (debug-html *scrape*)
