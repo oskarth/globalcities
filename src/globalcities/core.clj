@@ -13,10 +13,10 @@
   `(binding [*out* (clojure.java.io/writer ~filename)] ~@body))
 
 (defn debug-html [seq]
-(redir "foo.html" (print (apply str (html/emit* seq)))))
+  (redir "/tmp/foo.html" (print (apply str (html/emit* seq)))))
 
 (defn debug-text [seq]
-  (redir "foo.txt" (print seq)))
+  (redir "/tmp/foo.txt" (print seq)))
 
 ;; faux wikipedia
 (def ^:dynamic *url* "http://127.0.0.1:4567/global_cities.html")
