@@ -32,6 +32,7 @@
   [{:name (:title (:attrs content))
      :url (:href (:attrs content))}])
 
+;; false name
 (defn content->cities
   "turns scrape content into a seq with country-city repeated"
   [content]
@@ -40,10 +41,15 @@
    (map? content) (content->cities (:content content))
    (coll? content) (mapcat content->cities content)))
 
-;; this gives us the country, 1 gives us the city
-;; we want new keys and merge them somehow
-(let [prep (content->cities *scrape*)]
-  (nth prep 0))
+;; turns name-url list into structured with country and city put together
+(defn create-item [scrape]
+  (let [prep (content->cities scrape)]
+    (map (fn [[country city]]
+           {:country (:name country)
+            :country-url (:url country)
+            :city (:name city)
+            :city-url (:url city)})
+         (partition 2 prep))))
 
 
 ;; dev
